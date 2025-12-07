@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api/students";
+const API_BASE = `${import.meta.env.VITE_React_APP_API_URL}/students`;
 
 export const fetchStudents = async () => {
   const res = await fetch(API_BASE);
