@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import StudentList from './Studentlist';
-import { fetchStudents, createStudent, updateStudent, deleteStudent } from './Api';
+import StudentList from './StudentList';  // FIXED
 import StudentForm from './StudentForm';
+import { fetchStudents, createStudent, updateStudent, deleteStudent } from './api/api'; // FIXED
 import { FiUserPlus } from 'react-icons/fi';
 
 export default function App() {
@@ -16,10 +16,14 @@ export default function App() {
       setStudents(data || []);
     } catch (err) {
       console.log(err);
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const handleCreate = async (payload) => {
     const res = await createStudent(payload);
@@ -28,7 +32,7 @@ export default function App() {
 
   const handleUpdate = async (id, payload) => {
     const res = await updateStudent(id, payload);
-    setStudents(prev => prev.map(s => s._id === id ? res : s));
+    setStudents(prev => prev.map(s => (s._id === id ? res : s)));
     setEditing(null);
   };
 
@@ -38,10 +42,9 @@ export default function App() {
   };
 
   return (
-    <div className=" flex flex-col mx-auto p-4 space-y-4">
+    <div className="flex flex-col mx-auto p-4 space-y-4">
       <header className="mb-4">
         <h1 className="text-3xl font-bold mb-1">Student Management</h1>
-        <br />
       </header>
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -63,7 +66,9 @@ export default function App() {
         <div className="p-4 bg-white rounded-lg shadow">
           <div className="flex items-center justify-between mb-2">
             <h2 className="font-semibold">Students</h2>
-            <div className="text-sm text-gray-500">{loading ? 'Loading...' : `${students.length} total`}</div>
+            <div className="text-sm text-gray-500">
+              {loading ? 'Loading...' : `${students.length} total`}
+            </div>
           </div>
 
           <StudentList
